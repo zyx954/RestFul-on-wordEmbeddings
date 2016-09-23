@@ -1,0 +1,5 @@
+template: Hello, %s!
+defaultName: Stranger^testin_yaml
+cassandra:
+  clusterName: "test-cluster"
+  contactPoints: ["127.0.0.1"]
