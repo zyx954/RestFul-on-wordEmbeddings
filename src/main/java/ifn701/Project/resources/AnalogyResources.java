@@ -24,15 +24,15 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.PriorityQueue;
 
-@Path("/Cal_MosrSimilarWords")
+@Path("/Cal_analogyWords")
 @Produces(MediaType.APPLICATION_JSON)
-public class MostSimilarWords {
+public class AnalogyResources {
     private  final String template;
     private final String defaultName;
     private  final AtomicLong counter;
     Cluster cluster;
 
-    public MostSimilarWords(String template, String defaultName,Cluster cluster) {
+    public AnalogyResources(String template, String defaultName,Cluster cluster) {
         this.template = template;
                 this.defaultName = defaultName;
 
@@ -42,7 +42,7 @@ public class MostSimilarWords {
 
     @GET
     @Timed
-    public Saying sayHello(@QueryParam("fileName") String fileName,@QueryParam("queryWord") String queryWord) {
+    public Saying sayHello(@QueryParam("fileName") String fileName,@QueryParam("startWord") String startWord,@QueryParam("endWord") String endWord,@QueryParam("queryWord") String queryWord) {
        String finalValue="";
     	//--------connect with cassandra----
    	 //open DB
@@ -53,7 +53,7 @@ public class MostSimilarWords {
 	 		 client.connect(cluster);
 	 		 //get word list (ToDo needs to  optimize)
 	 		long a1 = System.currentTimeMillis();
-	 		 finalValue= client.getWordList(fileName,queryWord);
+	 		 finalValue= client.analogy(fileName,startWord,endWord,queryWord);
 	 		long b1 =System.currentTimeMillis();
 	        System.out.println("GET ALL TEH WRODS TIME ");
 	        System.out.println(b1-a1);

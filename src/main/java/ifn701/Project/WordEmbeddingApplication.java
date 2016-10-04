@@ -17,6 +17,7 @@ import com.datastax.driver.core.Session;
 import com.google.common.primitives.Doubles;
 
 import ifn701.Project.health.ProjectHealthCheck;
+import ifn701.Project.resources.AnalogyResources;
 import ifn701.Project.resources.GetVecResource;
 import ifn701.Project.resources.MostSimilarWords;
 import ifn701.Project.resources.SimilarityResource;
@@ -67,6 +68,8 @@ public class WordEmbeddingApplication extends Application<ProjectConfiguration> 
     	environment.jersey().register(resource2);
     	final MostSimilarWords resource3 = new MostSimilarWords(configuration.getTemplate(),configuration.getDefaltName(),cluster);
     	environment.jersey().register(resource3);
+     	final AnalogyResources resource4 = new AnalogyResources(configuration.getTemplate(),configuration.getDefaltName(),cluster);
+    	environment.jersey().register(resource4);
 
  	 	
     	

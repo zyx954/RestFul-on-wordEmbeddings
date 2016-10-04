@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Host;
 import com.datastax.driver.core.Metadata;
@@ -84,47 +86,81 @@ public class DBOperation {
     
     public  String getWordList(String tableName,String word) {
     	
-    	//
+    	//set up the priorityQueue to store data and sort
     	Comparator order =  new Comparator<SimilarityData>() 
     	{  
             public int compare(SimilarityData p1, SimilarityData p2) {  
                 return p2.value - p1.value;  
               }  
             };
-        PriorityQueue<SimilarityData> queue = new PriorityQueue<SimilarityData>(order);   
+        PriorityQueue<SimilarityData> queue = new PriorityQueue<SimilarityData>(order);
+        
+        
         String finalValue="";
         //get query vec
         ArrayList<Double> queryVec = new ArrayList<Double>();
-        queryVec = querySchema(tableName,word);
         
+//        long a2 =System.currentTimeMillis();
+//        for (int i =1;i<90000;i++)
+//        {
+        queryVec = querySchema(tableName,word);
+//        }
+//        long b2 =System.currentTimeMillis();
+//        System.out.println("execute query (one by one rather *)  TIME ");
+//        System.out.println(b2-a2);
+       
         //get all the vec from DB to memory
     	String queryStr= "SELECT * "+" FROM WordEmbeddings."+tableName  + ";";
-        ResultSet results =
-                session.execute(queryStr);
-       Iterator<Row> rows= results.iterator();
-//       List<Row> rows = results.all();//solution 1 this solution is slow
+    	long a1 =System.currentTimeMillis();
+        ResultSet results =session.execute(queryStr);
+        long b1 =System.currentTimeMillis();
+        System.out.println("execute query  TIME ");
+        System.out.println(b1-a1);
+        
+        long a2 =System.currentTimeMillis();
        
+//        while(!results.isExhausted())
+//        {
+//        	Row row = results.one();
+//        
+////        	List<Double> row_list = row.getList(1, Double.class);
+////        	for(Double d : row_list)
+////        	{
+////        		
+////        	}
+//        }
+//        long b2 =System.currentTimeMillis();
+//        System.out.println("execute resultSet  TIME ");
+//        System.out.println(b2-a2);
+        
+       Iterator<Row> rows= results.iterator();
        //the data returned from DB is List type
        ArrayList<String> allRows = new ArrayList<String>();
+       
+       //start of recording time
        long a =System.currentTimeMillis();
        //solution2 : 
        while (rows.hasNext())
        {
     	   Row row = rows.next();
     	  String oneWord= row.getString(0);
+//    	  List<Double> row_list=row.getList(1, double.class);
     	  List<Double> row_list=row.getList(1, Double.class);
-    	 // words.add(word);
-    	  //String i = "0";
+//    	  Object[] test = row_list.toArray();
+//    	  Double[] test3 = new Double(test.toString());
+//    	  double[] test4 = ArrayUtils.toPrimitive(test3);
+//    	  words.add(word);
+//    	  String i = "0";
     	  ArrayList<Double> vecValue=new ArrayList<Double>(row_list);
     	  double value = calculateCos(vecValue,queryVec);
     	  int i = (int) (value * 1000);
     	  queue.add(new SimilarityData(oneWord,i));
        }
        long b =System.currentTimeMillis();
-       System.out.println("GET ALL TEH WRODS TIME2 ");
+       System.out.println("GET ALL TEH WRODS(while loop) TIME ");
        System.out.println(b-a);
        //solition 1
-//       for(Row row : rows)
+//       for(Row row :rows)
 //       {
 //    	   String row_list=row.getString(0);
 //           //convert list to ArrayList
@@ -133,9 +169,11 @@ public class DBOperation {
 //    	   String word = row_list;
 //    	   words.add(word);
 //       }
-//       while (!queue.isEmpty())
-//       {
-    	   for(int i = 0; i<41;i++)
+
+    	  
+       
+       //add the reult to a variable
+       for(int i = 0; i<41;i++)
     	   {
     		   if(i ==0)
     		   {
@@ -149,8 +187,109 @@ public class DBOperation {
     			   
     		   }
     	   }
+    	   
        
+       String test = " test";
+        return finalValue;
+    }
+    
+    //calulate analogy 
+ public  String analogy(String tableName,String startWord,String endWord,String queryWord) {
+    	
+    	//set up the priorityQueue to store data and sort
+    	Comparator order =  new Comparator<SimilarityData>() 
+    	{  
+            public int compare(SimilarityData p1, SimilarityData p2) {  
+                return p2.value - p1.value;  
+              }  
+            };
+        PriorityQueue<SimilarityData> queue = new PriorityQueue<SimilarityData>(order);
+        
+        
+        String finalValue="";
+        //get query vec
+        ArrayList<Double> startWordVec = new ArrayList<Double>();
+        ArrayList<Double> endWordVec = new ArrayList<Double>();
+        ArrayList<Double> queryVec = new ArrayList<Double>();
+        
+//        long a2 =System.currentTimeMillis();
+//        for (int i =1;i<90000;i++)
+//        {
+        startWordVec = querySchema(tableName,startWord);
+        endWordVec = querySchema(tableName,endWord);
+        queryVec = querySchema(tableName,queryWord);
+//        }
+//        long b2 =System.currentTimeMillis();
+//        System.out.println("execute query (one by one rather *)  TIME ");
+//        System.out.println(b2-a2);
        
+        //get all the vec from DB to memory
+    	String queryStr= "SELECT * "+" FROM WordEmbeddings."+tableName  + ";";
+    	long a1 =System.currentTimeMillis();
+        ResultSet results =session.execute(queryStr);
+        long b1 =System.currentTimeMillis();
+        System.out.println("execute query  TIME ");
+        System.out.println(b1-a1);
+        
+       Iterator<Row> rows= results.iterator();
+       //the data returned from DB is List type
+       ArrayList<String> allRows = new ArrayList<String>();
+       
+       //start of recording time
+       long a =System.currentTimeMillis();
+       //solution2 : 
+       while (rows.hasNext())
+       {
+    	   Row row = rows.next();
+    	  String oneWord= row.getString(0);
+    	  if(!oneWord.equals(startWord)||!oneWord.equals(startWord)||!oneWord.equals(startWord))
+    	  {
+    		  List<Double> row_list=row.getList(1, Double.class);
+        	  ArrayList<Double> vecValue=new ArrayList<Double>(row_list);
+        	  double startWordvalue = calculateCos(vecValue,startWordVec);
+        	  double endWordvalue = calculateCos(vecValue,endWordVec);
+        	  double queryvalue = calculateCos(vecValue,queryVec);
+        	  double value = queryvalue-startWordvalue+endWordvalue;
+        	  int i = (int) (value * 1000);
+        	  queue.add(new SimilarityData(oneWord,i));
+    		  
+    	  }
+    	  
+       }
+       long b =System.currentTimeMillis();
+       System.out.println("GET ALL TEH WRODS(while loop) TIME ");
+       System.out.println(b-a);
+       //solition 1
+//       for(Row row :rows)
+//       {
+//    	   String row_list=row.getString(0);
+//           //convert list to ArrayList
+////    	   String word = "";
+//    	   //convvert List<String> to string 
+//    	   String word = row_list;
+//    	   words.add(word);
+//       }
+
+    	  
+       
+       //add the reult to a variable
+       for(int i = 0; i<41;i++)
+    	   {
+    		   if(i ==0)
+    		   {
+    			   queue.poll().toString();
+    			   continue;
+    		   }
+    		   else
+    		   {
+    			   //System.out.println(queue.poll().toString());
+    			   finalValue += (i)+". " +queue.poll().toString()+ ";  ";
+    			   
+    		   }
+    	   }
+    	   
+       
+       String test = " test";
         return finalValue;
     }
     
@@ -159,7 +298,12 @@ public class DBOperation {
     {
     	double[] vecValue = convertArrayListToArray(v1);
     	double[] queryVec = convertArrayListToArray(v2);
-    	return cosineSimilarity(vecValue,queryVec);
+//    	long a =System.currentTimeMillis();
+    	 double test  = cosineSimilarity(vecValue,queryVec);
+//        long b =System.currentTimeMillis();
+//        System.out.println("calculate cosine TIME ");
+//        System.out.println(b-a);
+        return test;
     }
       double cosineSimilarity(double[] vectorA, double[] vectorB) {
         double dotProduct = 0.0;
