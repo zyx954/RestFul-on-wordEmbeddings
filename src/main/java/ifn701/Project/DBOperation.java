@@ -70,22 +70,6 @@ public class DBOperation {
        //session.execute("DESCRIBE TABLES;" );
        
         ArrayList<String>  tableList = new ArrayList<String>();
-//
-//       String strCQL = "SELECT * "
-//           + "FROM system.schema_columnfamilies WHERE keyspace_name=WordEmbeddings ";
-//       PreparedStatement pStatement = session.prepare(strCQL);
-//       BoundStatement boundStatement = new BoundStatement(pStatement);
-//       boundStatement.bind("WordEmbeddings");
-//       ResultSet results = session.execute(boundStatement);
-//
-//       Iterator<Row> rows= results.iterator();
-//       while(rows.hasNext())
-//       {
-//    	   Row row = rows.next();
-//     	  String oneWord= row.getString(0);
-//    	   
-//           tableList.add(oneWord);
-//       }
         
         Metadata m = session.getCluster().getMetadata();
     	KeyspaceMetadata km = m.getKeyspace("WordEmbeddings");
@@ -93,7 +77,6 @@ public class DBOperation {
     
     	for (TableMetadata tableMetadata : kssetetadata) {
     		String table = tableMetadata.getName();
-    		//System.out.println(test);
     		tableList.add(table);
 		}
     	return tableList;
@@ -140,14 +123,7 @@ public class DBOperation {
         //get query vec
         ArrayList<Double> queryVec = new ArrayList<Double>();
         
-//        long a2 =System.currentTimeMillis();
-//        for (int i =1;i<90000;i++)
-//        {
         queryVec = querySchema(tableName,word);
-//        }
-//        long b2 =System.currentTimeMillis();
-//        System.out.println("execute query (one by one rather *)  TIME ");
-//        System.out.println(b2-a2);
        
         //get all the vec from DB to memory
     	String queryStr= "SELECT * "+" FROM WordEmbeddings."+tableName  + ";";
@@ -159,19 +135,6 @@ public class DBOperation {
         
         long a2 =System.currentTimeMillis();
        
-//        while(!results.isExhausted())
-//        {
-//        	Row row = results.one();
-//        
-////        	List<Double> row_list = row.getList(1, Double.class);
-////        	for(Double d : row_list)
-////        	{
-////        		
-////        	}
-//        }
-//        long b2 =System.currentTimeMillis();
-//        System.out.println("execute resultSet  TIME ");
-//        System.out.println(b2-a2);
         
        Iterator<Row> rows= results.iterator();
        //the data returned from DB is List type
@@ -184,13 +147,7 @@ public class DBOperation {
        {
     	   Row row = rows.next();
     	  String oneWord= row.getString(0);
-//    	  List<Double> row_list=row.getList(1, double.class);
     	  List<Double> row_list=row.getList(1, Double.class);
-//    	  Object[] test = row_list.toArray();
-//    	  Double[] test3 = new Double(test.toString());
-//    	  double[] test4 = ArrayUtils.toPrimitive(test3);
-//    	  words.add(word);
-//    	  String i = "0";
     	  ArrayList<Double> vecValue=new ArrayList<Double>(row_list);
     	  double value = calculateCos(vecValue,queryVec);
     	  int i = (int) (value * 1000);
@@ -199,16 +156,6 @@ public class DBOperation {
        long b =System.currentTimeMillis();
        System.out.println("GET ALL TEH WRODS(while loop) TIME ");
        System.out.println(b-a);
-       //solition 1
-//       for(Row row :rows)
-//       {
-//    	   String row_list=row.getString(0);
-//           //convert list to ArrayList
-////    	   String word = "";
-//    	   //convvert List<String> to string 
-//    	   String word = row_list;
-//    	   words.add(word);
-//       }
 
     	  
        
@@ -252,16 +199,9 @@ public class DBOperation {
         ArrayList<Double> endWordVec = new ArrayList<Double>();
         ArrayList<Double> queryVec = new ArrayList<Double>();
         
-//        long a2 =System.currentTimeMillis();
-//        for (int i =1;i<90000;i++)
-//        {
         startWordVec = querySchema(tableName,startWord);
         endWordVec = querySchema(tableName,endWord);
         queryVec = querySchema(tableName,queryWord);
-//        }
-//        long b2 =System.currentTimeMillis();
-//        System.out.println("execute query (one by one rather *)  TIME ");
-//        System.out.println(b2-a2);
        
         //get all the vec from DB to memory
     	String queryStr= "SELECT * "+" FROM WordEmbeddings."+tableName  + ";";
@@ -299,18 +239,6 @@ public class DBOperation {
        long b =System.currentTimeMillis();
        System.out.println("GET ALL TEH WRODS(while loop) TIME ");
        System.out.println(b-a);
-       //solition 1
-//       for(Row row :rows)
-//       {
-//    	   String row_list=row.getString(0);
-//           //convert list to ArrayList
-////    	   String word = "";
-//    	   //convvert List<String> to string 
-//    	   String word = row_list;
-//    	   words.add(word);
-//       }
-
-    	  
        
        //add the reult to a variable
        for(int i = 0; i<41;i++)
@@ -338,11 +266,7 @@ public class DBOperation {
     {
     	double[] vecValue = convertArrayListToArray(v1);
     	double[] queryVec = convertArrayListToArray(v2);
-//    	long a =System.currentTimeMillis();
     	 double test  = cosineSimilarity(vecValue,queryVec);
-//        long b =System.currentTimeMillis();
-//        System.out.println("calculate cosine TIME ");
-//        System.out.println(b-a);
         return test;
     }
       double cosineSimilarity(double[] vectorA, double[] vectorB) {

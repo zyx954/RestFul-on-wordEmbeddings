@@ -28,7 +28,6 @@ public class ReadFileToDB {
 	 	{
 	 		cluster = Cluster.builder().addContactPoint("127.0.0.1").build();
 	 		 client.connect(cluster);
-	 		//client.dropSchema("WordEmbeddings");
 	 		
 	 		
 	 		//read file from folder and reorginaze file data in to a variable with type HashMap<String,ArrayList<Double>>
@@ -57,9 +56,6 @@ public class ReadFileToDB {
 	     	   long a = System.currentTimeMillis();
 	     	    //put the data from file into cassandra  
 	     	   
-//	     	   for (String table : tables)
-//	     	   {
-//	     		   if (!fileName.equals(table))
 	     			  if (!tables.contains(fileName))
 	     		   {
 	     			  for(String key:vecValue.keySet())
