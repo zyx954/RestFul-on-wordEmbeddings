@@ -3,7 +3,7 @@
 The requirement to use web service   
      Requirement:
         1.	This project use jdk 1.8.0 
-        2.	This project use Apache Cassandra: 3.0.1. 
+        2.	This project use Apache Cassandra: 3.7
         3.	Eclipse EE 4.6.0
 
     Usage of the Web Service
