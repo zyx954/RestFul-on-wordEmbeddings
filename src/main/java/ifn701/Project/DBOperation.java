@@ -62,6 +62,18 @@ public class DBOperation {
     //creat table if not exist
     //here Only excute once. keyspace(once)  . table will based the parameter.
     public ArrayList<String>  createSchema(String fileName) {
+    	
+    	 ArrayList<String>  tableList = new ArrayList<String>();
+         
+         Metadata m = session.getCluster().getMetadata();
+     	KeyspaceMetadata km = m.getKeyspace("WordEmbeddings");
+     	Collection<TableMetadata> kssetetadata  = km.getTables();
+     
+     	for (TableMetadata tableMetadata : kssetetadata) {
+     		String table = tableMetadata.getName();
+     		tableList.add(table);
+ 		}
+     	
         session.execute("CREATE KEYSPACE IF NOT EXISTS WordEmbeddings WITH replication "
                 + "= {'class':'SimpleStrategy', 'replication_factor':1};");
         session.execute("CREATE TABLE IF NOT EXISTS WordEmbeddings."+fileName +"(" + "word varchar PRIMARY KEY," +  "vectors list<double>" + ");");
@@ -69,16 +81,7 @@ public class DBOperation {
        // ResultSet tables  = session.execute("DESCRIBE TABLES;" );
        //session.execute("DESCRIBE TABLES;" );
        
-        ArrayList<String>  tableList = new ArrayList<String>();
-        
-        Metadata m = session.getCluster().getMetadata();
-    	KeyspaceMetadata km = m.getKeyspace("WordEmbeddings");
-    	Collection<TableMetadata> kssetetadata  = km.getTables();
-    
-    	for (TableMetadata tableMetadata : kssetetadata) {
-    		String table = tableMetadata.getName();
-    		tableList.add(table);
-		}
+       
     	return tableList;
     
 
