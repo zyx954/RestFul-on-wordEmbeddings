@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ifn701</groupId>
-  <artifactId>simple_test</artifactId>
+  <artifactId>Project</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -18,12 +18,7 @@
   
 
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
+  
     
     <dependency>
         <groupId>io.dropwizard</groupId>

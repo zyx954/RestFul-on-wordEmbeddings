@@ -332,23 +332,16 @@ public class DBOperation {
     //close connection.
        public void close() {
            session.close();
-//           cluster.close();
+           //cluster.close();
+       }
+    //close connection include cluster.
+       public void closeAll() {
+           session.close();
+           cluster.close();
        }
        
        
  
- 
-    //------updata (test purpose)
-    public void updateSchema() {
-        session.execute("UPDATE simplex.songs set title = 'La Petite Tonkinoise Updated'"
-                + " WHERE id = 756716f7-2e54-4715-9f00-91dcbea6cf50;");
-    }
- 
-
-//-----delete  (test purpose)
-    public void deleteSchema() {
-        session.execute("DELETE FROM simplex.songs " + " WHERE id = 756716f7-2e54-4715-9f00-91dcbea6cf50;");
-    }
  
    
      //delete keyspace，in other DB system might called schema
