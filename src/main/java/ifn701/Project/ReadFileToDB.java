@@ -52,18 +52,27 @@ public class ReadFileToDB {
 	     	       vecValue = vecFile.getVec(fileNameWithTXT);
 	     	    }
 		      //create table(Schema) based on filename
-	     	   client.createSchema(fileName);
+	     	   ArrayList<String> tables = client.createSchema(fileName);
 	     	    //record time
 	     	   long a = System.currentTimeMillis();
 	     	    //put the data from file into cassandra  
-	           for(String key:vecValue.keySet())
-	           {
-	        	   //get each vactor value 
-	           	ArrayList<Double> vecValueDouble = vecValue.get(key);
-	           	//lode each line one to DB one by one 
-	           	client.loadData(fileName,key,vecValueDouble);
-	           	//System.out.println(key);
-	           }
+	     	   
+//	     	   for (String table : tables)
+//	     	   {
+//	     		   if (!fileName.equals(table))
+	     			  if (!tables.contains(fileName))
+	     		   {
+	     			  for(String key:vecValue.keySet())
+	   	           {
+	   	        	   //get each vactor value 
+	   	           	ArrayList<Double> vecValueDouble = vecValue.get(key);
+	   	           	//lode each line one to DB one by one 
+	   	           	client.loadData(fileName,key,vecValueDouble);
+	   	           	//System.out.println(key);
+//	   	           }
+	     		   }
+	     	   }
+	           
 	           long b =System.currentTimeMillis();
 	           System.out.println(b-a);
 	     	}

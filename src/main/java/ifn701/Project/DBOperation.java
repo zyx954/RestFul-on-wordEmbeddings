@@ -2,20 +2,27 @@ package ifn701.Project;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 
+import javax.sql.RowSet;
+
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Host;
+import com.datastax.driver.core.KeyspaceMetadata;
 import com.datastax.driver.core.Metadata;
+import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.core.TableMetadata;
 
 import ifn701.Project.resources.SimilarityData;
 
@@ -54,10 +61,43 @@ public class DBOperation {
     //create keyspaec / schema/database  
     //creat table if not exist
     //here Only excute once. keyspace(once)  . table will based the parameter.
-    public void createSchema(String fileName) {
+    public ArrayList<String>  createSchema(String fileName) {
         session.execute("CREATE KEYSPACE IF NOT EXISTS WordEmbeddings WITH replication "
                 + "= {'class':'SimpleStrategy', 'replication_factor':1};");
         session.execute("CREATE TABLE IF NOT EXISTS WordEmbeddings."+fileName +"(" + "word varchar PRIMARY KEY," +  "vectors list<double>" + ");");
+        session.execute("use wordembeddings ; ");
+       // ResultSet tables  = session.execute("DESCRIBE TABLES;" );
+       //session.execute("DESCRIBE TABLES;" );
+       
+        ArrayList<String>  tableList = new ArrayList<String>();
+//
+//       String strCQL = "SELECT * "
+//           + "FROM system.schema_columnfamilies WHERE keyspace_name=WordEmbeddings ";
+//       PreparedStatement pStatement = session.prepare(strCQL);
+//       BoundStatement boundStatement = new BoundStatement(pStatement);
+//       boundStatement.bind("WordEmbeddings");
+//       ResultSet results = session.execute(boundStatement);
+//
+//       Iterator<Row> rows= results.iterator();
+//       while(rows.hasNext())
+//       {
+//    	   Row row = rows.next();
+//     	  String oneWord= row.getString(0);
+//    	   
+//           tableList.add(oneWord);
+//       }
+        
+        Metadata m = session.getCluster().getMetadata();
+    	KeyspaceMetadata km = m.getKeyspace("WordEmbeddings");
+    	Collection<TableMetadata> kssetetadata  = km.getTables();
+    
+    	for (TableMetadata tableMetadata : kssetetadata) {
+    		String table = tableMetadata.getName();
+    		//System.out.println(test);
+    		tableList.add(table);
+		}
+    	return tableList;
+    
 
     }
  
