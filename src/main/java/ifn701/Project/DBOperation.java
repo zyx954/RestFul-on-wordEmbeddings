@@ -62,30 +62,30 @@ public class DBOperation {
     //creat table if not exist
     //here Only excute once. keyspace(once)  . table will based the parameter.
     public ArrayList<String>  createSchema(String fileName) {
-    	
-    	 ArrayList<String>  tableList = new ArrayList<String>();
-         
-         Metadata m = session.getCluster().getMetadata();
-     	KeyspaceMetadata km = m.getKeyspace("WordEmbeddings");
-     	Collection<TableMetadata> kssetetadata  = km.getTables();
-     
-     	for (TableMetadata tableMetadata : kssetetadata) {
-     		String table = tableMetadata.getName();
-     		tableList.add(table);
- 		}
-     	
-        session.execute("CREATE KEYSPACE IF NOT EXISTS WordEmbeddings WITH replication "
-                + "= {'class':'SimpleStrategy', 'replication_factor':1};");
-        session.execute("CREATE TABLE IF NOT EXISTS WordEmbeddings."+fileName +"(" + "word varchar PRIMARY KEY," +  "vectors list<double>" + ");");
-        session.execute("use wordembeddings ; ");
-       // ResultSet tables  = session.execute("DESCRIBE TABLES;" );
-       //session.execute("DESCRIBE TABLES;" );
-       
-       
-    	return tableList;
-    
+    	ArrayList<String>  tableList = new ArrayList<String>();
+    	session.execute("CREATE KEYSPACE IF NOT EXISTS WordEmbeddings WITH replication "
+    	        + "= {'class':'SimpleStrategy', 'replication_factor':1};");
+    	        Metadata m = session.getCluster().getMetadata();
+    	    	KeyspaceMetadata km = m.getKeyspace("WordEmbeddings");
+    	    	Collection<TableMetadata> kssetetadata  = km.getTables();
+    	    
+    	    	for (TableMetadata tableMetadata : kssetetadata) {
+    	    		String table = tableMetadata.getName();
+    	    		tableList.add(table);
+    			}
+    	    	
+    	    	
+    	        
+    	        session.execute("CREATE TABLE IF NOT EXISTS WordEmbeddings."+fileName +"(" + "word varchar PRIMARY KEY," +  "vectors list<double>" + ");");
+    	        session.execute("use wordembeddings ; ");
+    	       // ResultSet tables  = session.execute("DESCRIBE TABLES;" );
+    	       //session.execute("DESCRIBE TABLES;" );
+    	       
+    	        
+    	    	return tableList;
+    	    
 
-    }
+    	    }
  
     //insert data
     //here the data will based on para

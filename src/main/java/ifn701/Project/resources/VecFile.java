@@ -13,11 +13,11 @@ public class VecFile {
 	HashMap<String,ArrayList<Double>> vec = new HashMap<String,ArrayList<Double> >();
 
 	//Funciton used for pre-Read file from oen file 
-    public HashMap<String,ArrayList<Double>> getVec (String file_name)
+    public HashMap<String,ArrayList<Double>> getVec (String path,String file_name)
     {
     	VecFile Dataclass = new VecFile();  
     	//get the path based on different file_name
-        String fileName = "/Users/zyx954/Documents/wordEmbeddingsData/"+file_name;
+        String fileName = path+"/"+file_name;
         // This will reference one line at a time
         String line = null;
         Boolean firstTime = true;

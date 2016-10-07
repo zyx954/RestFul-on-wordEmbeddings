@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
+//import Project.ReadData.DBOperation;
 import ifn701.Project.resources.VecFile;
 
 import com.datastax.driver.core.Cluster;
@@ -20,8 +21,9 @@ import com.datastax.driver.core.Session;
 public class ReadFileToDB {
 	public static void main( String[] args )
     {
+
 		 Cluster cluster;
-    Session session;
+  Session session;
 		//read file and store file data into cassandra
 	 	DBOperation client = new DBOperation();
 	 	try
@@ -32,7 +34,8 @@ public class ReadFileToDB {
 	 		
 	 		//read file from folder and reorginaze file data in to a variable with type HashMap<String,ArrayList<Double>>
 	     	//& insert this variable to Cassandra
-	     	File folder = new File("/Users/zyx954/Documents/wordEmbeddingsData");
+	 		 //
+	     	File folder = new File(args[0]);
 	     	
 	     	File[] listOfFiles = folder.listFiles();
 	     	
@@ -48,7 +51,7 @@ public class ReadFileToDB {
 	     	    if (file.isFile()) {
 	     	       VecFile vecFile = new VecFile();
 	     	       //put all the data in one file into a variable
-	     	       vecValue = vecFile.getVec(fileNameWithTXT);
+	     	       vecValue = vecFile.getVec(args[0],fileNameWithTXT);
 	     	    }
 		      //create table(Schema) based on filename
 	     	   ArrayList<String> tables = client.createSchema(fileName);
@@ -64,7 +67,7 @@ public class ReadFileToDB {
 	   	           	ArrayList<Double> vecValueDouble = vecValue.get(key);
 	   	           	//lode each line one to DB one by one 
 	   	           	client.loadData(fileName,key,vecValueDouble);
-	   	           	//System.out.println(key);
+	   	           	System.out.println(key);
 //	   	           }
 	     		   }
 	     	   }
