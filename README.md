@@ -28,7 +28,7 @@ The requirement to add more word embeddings
 
     Usage:
 
-    1.	Before in the ReadFiletoDB.java file , change the path of folder variable into the location which contains the word embedding file. In this folder should not contain other files or folders. The format of file name should looks as follow.
+    1.	Before running ReadFiletoDB.java file , pass one location as parameter which contains the word embedding file. In this folder should not contain other files or folders.
 
      NB. 
         1.	This reading file function will trim the last 18 characters of the file name. For example, the file name will change from “vectors_ap8889_cbow_s100_w5_neg20_hs0_sam1e-4_iter5.txt” to “vectors_ap8889_cbow_s100_w5_neg20_hs0”
@@ -48,5 +48,5 @@ The requirement of add new operations
 
         2.	Then register this resources to server. 
         •	The regestion is within the run function in the WordEmbeddingApplication.java file. 
-        •	The way to register this resources as follow: 
+       
 
