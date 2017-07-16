@@ -57,6 +57,11 @@ The way to deploy the project:
 
      1. Export this sorce file to runable JAR file. 
      2. Copy "ProjectConfiguation.yml" file  from source file to the same location with the jar file.
-     3. Within command line run  "java -jar /*NameOfJar*/.jar server ProjectConfiguation.yml". Before running this, the DB server should be started as methioned beofre.
+     3. Within command line run  "java -jar /*PathOfJar*/.jar server ProjectConfiguation.yml". Before running this, the DB server should be started as methioned beofre.
      NB: If the deployment environmnet is just a server without GUI, the ReadDataToDB.java should be export as an indicidual JAR file(include related java files) and run this ReadDataToDB.jar(with location parameter) file to load data to Cassandra.
+     
+     
+TODO:
+clean clode
+tokenize file name rahter than trim the last 18 <--this will cause problems if the file name is not proper
 
