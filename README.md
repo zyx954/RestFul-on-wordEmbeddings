@@ -40,7 +40,8 @@ To simplify running test, the jar files are provided in folder *jar_file*. Only 
 	* URL : `http://localhost:8080/Cal_MosrSimilarWords?fileName=vectors_ap8889_skipgram_s200_w20_neg20_hs0&queryWord=apple`
 	* Result :![2](https://user-images.githubusercontent.com/16515626/28260384-29edb4c6-6b1e-11e7-982a-cf983c7df45e.png)
 * most similar words
-	* URL : `![4](https://user-images.githubusercontent.com/16515626/28260579-0a3b9764-6b1f-11e7-88e8-a40c39b9cec4.png)`
+	* URL : `http://localhost:8080/Cal_Similarity?fileName=vectors_ap8889_skipgram_s200_w20_neg20_hs0&queryWord1=cat&queryWord2=dog
+`
 	* Result : ![3](https://user-images.githubusercontent.com/16515626/28260577-07172a8a-6b1f-11e7-9c5e-bd0bc03ebb4e.png)
 
 * words analogy
