@@ -34,7 +34,7 @@ To simplify runing test, the jar files are provided in folder *jar_file*. Only t
 * query wordEmbeddings
 	* URL : `http://localhost:8080/Get_Vec?fileName=vectors_ap8889_skipgram_s200_w20_neg20_hs0&queryWord=apple`
 	* result : 
-	![Alt text](images/1.png?raw=true "Optional Title")
+	![Alt text](/images/1.png?raw=true "Optional Title")
 * words similarity
 * most similar words
 * words analogy
