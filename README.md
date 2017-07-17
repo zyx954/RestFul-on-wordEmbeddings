@@ -1,67 +1,58 @@
-# wordEmbeddings
+# RestFul web service on WordEmbeddings functions
 
-The requirement to use web service   
-     Requirement:
-        1.	This project use jdk 1.8.0 
-        2.	This project use Apache Cassandra: 3.7
-        3.	Eclipse EE 4.6.0
+This project use **dropwizard** to build the RestFul web service. The precalculated **wordEmbeddings** will be stroed into a Non-Sql database (**Cassandra**). 
 
-    Usage of the Web Service
-        1.	When first time to initialize the project, you need to use maven update this project to import relevant dependencies.
-            •	The major dependency is :
-            •	Dropwizard :１.0.0
-            •	Dropwizard-cassandra :４.0.0
-        2.	start DB server before run this project
-            •	The way to start DB server is go to Cassandra bin file and run commend line under bin file. Then run "./cassandra -f" . After the server will run in 127.0.0.1  port
-            •	The way to stop DB server is to price ctrl+c within the commend line.
-        3.	Before run the web service. Configure the Arguments as "server ProjectConfiguation.yml" .
-        4.	Then right click WordEmbeddingApplication.java and run this as application
+There are four functions are implemented, which are: 
+
+* query wordEmbeddings
+* words similarity
+* most similar words
+* words analogy
+
+To simplify runing test, the jar files are provided in folder *jar_file*. Only the folder *jar_file* is needed to run this demo.
 
 
+ 
+## Two step to Run Demo
+###Prerequisites
+* Download the folder *jar_file* 
+* Install Cassandra (3.0.8)
+* Download [sample 67M](http://www.zuccon.net/adcs2015_ntlm/w2v_embeddings/vectors_ap8889_skipgram_s200_w20_neg20_hs0_sam1e-4_iter5.txt.tar.gz) and please into a folder (e.g. a folder named *wordEmbeddingsData*)
+* Install Java(1.8.0_101) if necessary 
+
+###Runing 
+* Open Canssandra server : `./cassandra -f`
+
+* Load data into cassandra : `java -jar ReadData.jar ./wordEmbeddingsData`
+
+* To runing the restful service: 
+`java -jar ./WordEmbeddingService.jar server ProjectConfiguation.yml`
+
+### Usage test
+
+
+* query wordEmbeddings
+	* URL : `http://localhost:8080/Get_Vec?fileName=vectors_ap8889_skipgram_s200_w20_neg20_hs0&queryWord=apple`
+	* result : 
+	![Alt text](/image/1.png?raw=true "Optional Title")
+* words similarity
+* most similar words
+* words analogy
+[![solarized dualmode](https://github.com/altercation/solarized/raw/master/img/solarized-yinyang.png)](#features)
+```
+Give an example
+```
+
+## Built With
+* Database : Cassandra (3.0.8)
+* DB driver : dropwizard-cassandra (4.0.0)
+* Web Framework : dropwizard (1.0.0)
+* Maven (4.0.0)
+* Java (1.8.0_101)
+* [sample 67M](http://www.zuccon.net/adcs2015_ntlm/w2v_embeddings/vectors_ap8889_skipgram_s200_w20_neg20_hs0_sam1e-4_iter5.txt.tar.gz) from [Dr. Zuccon](http://www.zuccon.net/ntlm.html)
 
 
 
 
-The requirement to add more word embeddings
 
-    The word embeddings file will can be automatically added into Cassandra DB. This function is in ReadFiletoDB.java
-
-    Usage:
-
-    1.	Before running ReadFiletoDB.java file , pass one location as parameter which contains the word embedding file. In this folder should not contain other files or folders.
-
-     NB. 
-        1.	This reading file function will trim the last 18 characters of the file name. For example, the file name will change from “vectors_ap8889_cbow_s100_w5_neg20_hs0_sam1e-4_iter5.txt” to “vectors_ap8889_cbow_s100_w5_neg20_hs0”
-        2.	If the table already exist in DB this function will ignore loading the file to DB
-    2.	To run this function which is adding more word embeddings is by running this file.  This function will be executed. Each word embedding file will cost around 6 mins depends on the size of the file.
  
-
-
-
-
- 
-The requirement of add new operations
-
-    To add new operations means add one more resources within the resources package in the project.
-    Usage:
-        1.	The simple way is copy one of resources file in resource package and then manipulate this resource file as needed
-
-        2.	Then register this resources to server. 
-        •	The regestion is within the run function in the WordEmbeddingApplication.java file. 
-    
-    
-    
-    
-     
-The way to deploy the project:
-
-     1. Export this sorce file to runable JAR file. 
-     2. Copy "ProjectConfiguation.yml" file  from source file to the same location with the jar file.
-     3. Within command line run  "java -jar /*PathOfJar*/.jar server ProjectConfiguation.yml". Before running this, the DB server should be started as methioned beofre.
-     NB: If the deployment environmnet is just a server without GUI, the ReadDataToDB.java should be export as an indicidual JAR file(include related java files) and run this ReadDataToDB.jar(with location parameter) file to load data to Cassandra.
-     
-     
-TODO:
-clean clode
-tokenize file name rahter than trim the last 18 <--this will cause problems if the file name is not proper
-
