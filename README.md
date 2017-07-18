@@ -1,13 +1,19 @@
 # RestFul web service on WordEmbeddings functions
 
-This project use **dropwizard** to build the RestFul web service. The pre_calculated **wordEmbeddings** will be stored into a Non-Sql database (**Cassandra**). 
+A little RestFul web service built by Dropwizard with a Non-Sql database (**Cassandra**) to provide **wordEmbeddings** functions.
 
-There are four functions are implemented, which are: 
+Four functions are included, which are: 
 
-* query wordEmbeddings
-* words similarity
-* most similar words
-* words analogy
+* Query wordEmbeddings
+* Similarity of two words
+* Nearest words
+* Word analogy
+
+
+
+
+
+[Here](http://bionlp-www.utu.fi/wv_demo/) is a website style demo from [Turku BioNLP Group](http://bionlp.utu.fi/)
 
 To simplify running test, the jar files are provided in folder *jar_file*. Only the folder *jar_file* is needed to run this demo.
 
