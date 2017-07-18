@@ -18,7 +18,7 @@ To simplify running test, the jar files are provided in folder *jar_file*. Only 
 ### Prerequisites
 * Download the folder *jar_file* 
 * Install Cassandra (3.0.8)
-* Download [sample 67M](http://www.zuccon.net/adcs2015_ntlm/w2v_embeddings/vectors_ap8889_skipgram_s200_w20_neg20_hs0_sam1e-4_iter5.txt.tar.gz) and please into a folder (e.g. a folder named *wordEmbeddingsData*)
+* Download [sample 67M](http://www.zuccon.net/adcs2015_ntlm/w2v_embeddings/vectors_ap8889_skipgram_s200_w20_neg20_hs0_sam1e-4_iter5.txt.tar.gz) and place into a folder (e.g. a folder named *wordEmbeddingsData*)
 * Install Java(1.8.0_101) if necessary 
 
 ### Running 
